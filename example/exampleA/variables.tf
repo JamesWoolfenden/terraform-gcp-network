@@ -1,25 +1,25 @@
-variable common_tags {
+variable "common_tags" {
   description = "This is to help you add tags to your cloud objects"
   type        = map
 }
 
-variable project {
+variable "project" {
   type = string
 }
 
-variable region {
+variable "region" {
   type = string
 }
 
-variable name {
+variable "name" {
   type = string
 }
 
-variable secondary_ip_range {
+variable "secondary_ip_range" {
   default = null
 }
 
 
-variable ip_cidr_range {
+variable "ip_cidr_range" {
   type = string
 }

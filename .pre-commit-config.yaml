@@ -1,25 +1,26 @@
 ---
+# yamllint disable rule:line-length
 repos:
   - repo: git://github.com/pre-commit/pre-commit-hooks
     rev: v2.4.0
     hooks:
+      - id: check-json
+      - id: check-merge-conflict
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-added-large-files
-      - id: check-merge-conflict
-      - id: trailing-whitespace
   - repo: git://github.com/Lucas-C/pre-commit-hooks
     rev: v1.1.7
     hooks:
       - id: forbid-tabs
-        exclude_types: [python, javascript, dtd, markdown, makefile, xml]
+        exclude_types: [python, javascript, dtd, markdown, makefile]
         exclude: binary|\.bin$
-  - repo: git://github.com/kintoandar/pre-commit.git
+  - repo: git://github.com/kintoandar/pre-commit
     rev: v2.1.0
     hooks:
       - id: terraform_fmt
-  - repo: git://github.com/pre-commit/pre-commit-hooks.git
+  - repo: git://github.com/pre-commit/pre-commit-hooks
     rev: v2.4.0
     stages:
       - commit
@@ -51,4 +52,4 @@ repos:
     rev: 1.18.2
     hooks:
       - id: prettier
-        exclude_types: [markdown]
+    exclude_types: [markdown]
