@@ -4,17 +4,36 @@
 
 make net and sub net with secondary range if supplied
 
+```terraform
+module "network" {
+  source      = "JamesWoolfenden/network/gcp"
+  version     = "0.0.2"
+}
+```
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Providers
+
+| Name | Version |
+|------|---------|
+| google | n/a |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| common\_tags | This is to help you add tags to your cloud objects | map | n/a | yes |
-| ip\_cidr\_range |  | string | n/a | yes |
-| name |  | string | n/a | yes |
-| project |  | string | n/a | yes |
-| region |  | string | n/a | yes |
-| secondary\_ip\_range |  | string | `"null"` | no |
+|------|-------------|------|---------|:-----:|
+| common\_tags | This is to help you add tags to your cloud objects | `map` | n/a | yes |
+| ip\_cidr\_range | n/a | `string` | n/a | yes |
+| name | n/a | `string` | n/a | yes |
+| project | n/a | `string` | n/a | yes |
+| region | n/a | `string` | n/a | yes |
+| secondary\_ip\_range | n/a | `any` | n/a | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| gateway\_ipv4 | n/a |
+| network\_self\_link | n/a |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
@@ -38,7 +57,7 @@ Please use the [issue tracker](https://github.com/JamesWoolfenden/terraform-gcp-
 
 ## Copyrights
 
-Copyright � 2019-2020 [Slalom, LLC](https://slalom.com)
+Copyright © 2019-2020 [Slalom, LLC](https://slalom.com)
 
 ## License
 
