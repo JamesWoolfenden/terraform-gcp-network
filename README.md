@@ -3,7 +3,7 @@
 [![Build Status](https://github.com/JamesWoolfenden/terraform-gcp-network/workflows/Verify%20and%20Bump/badge.svg?branch=master)](https://github.com/JamesWoolfenden/terraform-gcp-network)
 [![Latest Release](https://img.shields.io/github/release/JamesWoolfenden/terraform-gcp-network.svg)](https://github.com/JamesWoolfenden/terraform-gcp-network/releases/latest)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![pre-commit](https://img.shields.io/badge/checkov-verified-brightgreen)](https://www.checkov.io/)
+[![checkov](https://img.shields.io/badge/checkov-verified-brightgreen)](https://www.checkov.io/)
 
 make net and sub net with secondary range if supplied
 
@@ -15,30 +15,33 @@ module "network" {
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
+
+No requirements.
 
 ## Providers
 
-| Name   | Version |
-| ------ | ------- |
-| google | n/a     |
+| Name | Version |
+|------|---------|
+| google | n/a |
 
 ## Inputs
 
-| Name               | Description                                        | Type     | Default | Required |
-| ------------------ | -------------------------------------------------- | -------- | ------- | :------: |
-| common_tags        | This is to help you add tags to your cloud objects | `map`    | n/a     |   yes    |
-| ip_cidr_range      | n/a                                                | `string` | n/a     |   yes    |
-| name               | n/a                                                | `string` | n/a     |   yes    |
-| project            | n/a                                                | `string` | n/a     |   yes    |
-| region             | n/a                                                | `string` | n/a     |   yes    |
-| secondary_ip_range | n/a                                                | `any`    | n/a     |   yes    |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| common\_tags | This is to help you add tags to your cloud objects | `map` | n/a | yes |
+| ip\_cidr\_range | n/a | `string` | n/a | yes |
+| name | n/a | `string` | n/a | yes |
+| project | n/a | `string` | n/a | yes |
+| region | n/a | `string` | n/a | yes |
+| secondary\_ip\_range | n/a | `any` | `null` | no |
 
 ## Outputs
 
-| Name              | Description |
-| ----------------- | ----------- |
-| gateway_ipv4      | n/a         |
-| network_self_link | n/a         |
+| Name | Description |
+|------|-------------|
+| gateway\_ipv4 | n/a |
+| network\_self\_link | n/a |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
@@ -93,8 +96,6 @@ under the License.
 
 [jameswoolfenden_homepage]: https://github.com/jameswoolfenden
 [jameswoolfenden_avatar]: https://github.com/jameswoolfenden.png?size=150
-[logo]: https://gist.githubusercontent.com/JamesWoolfenden/5c457434351e9fe732ca22b78fdd7d5e/raw/15933294ae2b00f5dba6557d2be88f4b4da21201/slalom-logo.png
-[website]: https://slalom.com
 [github]: https://github.com/jameswoolfenden
 [linkedin]: https://www.linkedin.com/in/jameswoolfenden/
 [twitter]: https://twitter.com/JimWoolfenden
