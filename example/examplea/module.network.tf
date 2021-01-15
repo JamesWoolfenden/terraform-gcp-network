@@ -1,4 +1,4 @@
-module network {
+module "network" {
   source        = "../../"
   name          = var.name
   ip_cidr_range = var.ip_cidr_range
