@@ -1,8 +1,9 @@
 common_tags = {
-"createdby" = "Terraform" }
+  "createdby" = "Terraform"
+module = "terraform-gcp-network" }
 
 region        = "us-east1"
-project       = "examplea"
+project       = "examplea-304315"
 name          = "lovelyhorse"
 ip_cidr_range = "10.128.0.0/16"
 secondary_ip_range = [{

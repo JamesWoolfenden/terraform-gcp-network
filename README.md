@@ -25,11 +25,22 @@ No requirements.
 |------|---------|
 | google | n/a |
 
+## Modules
+
+No Modules.
+
+## Resources
+
+| Name |
+|------|
+| [google_compute_network](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_network) |
+| [google_compute_subnetwork](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork) |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| common\_tags | This is to help you add tags to your cloud objects | `map` | n/a | yes |
+| common\_tags | This is to help you add tags to your cloud objects | `map(any)` | n/a | yes |
 | ip\_cidr\_range | n/a | `string` | n/a | yes |
 | name | n/a | `string` | n/a | yes |
 | project | n/a | `string` | n/a | yes |
@@ -40,9 +51,8 @@ No requirements.
 
 | Name | Description |
 |------|-------------|
-| gateway\_ipv4 | n/a |
-| network\_self\_link | n/a |
-
+| subnet | n/a |
+| vpc | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Related Projects

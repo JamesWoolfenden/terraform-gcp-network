@@ -1,6 +1,7 @@
 # Makefile
 ifdef OS
    BLAT = $(powershell  -noprofile rm .\.terraform\ -force -recurse)
+   RM = $(powershell  -noprofile rm .\.terraform\ -force -recurse)
 else
    ifeq ($(shell uname), Linux)
       RM  = rm .terraform/modules/ -fr
@@ -14,7 +15,7 @@ all: init plan build
 
 init:
 	$(RM)
-	terraform init -reconfigure
+	terraform init -reconfigure -upgrade
 
 plan:
 	terraform plan -refresh=true
@@ -37,9 +38,19 @@ docs:
 	terraform-docs md . > README.md
 
 valid:
-	terraform fmt
-	checkov -d . --external-checks-dir ../../checkov
+	-terraform fmt -recursive
+	-checkov -d . --external-checks-dir ../../checkov
+	-tfsec .
+	-terrascan scan
+	docker pull checkmarx/kics:latest
+	docker run -v $(CURDIR):/path checkmarx/kics:latest -p "/path"
 
+compare:
+	-checkov -d . --external-checks-dir ../../checkov -o json >../../output/checkov.json
+	-terrascan scan -o json -x json >../../output/terrascan.json
+	-tfsec . --out ../../output/tfsec.json -f json -s
+	docker pull checkmarx/kics:latest
+	docker run -v $(CURDIR):/path -v $(CURDIR)/../../output:/output checkmarx/kics:latest -p "/path" -o "/output/kics.json"
 target:
 	@read -p "Enter Module to target:" MODULE;
 	terraform apply -target $$MODULE

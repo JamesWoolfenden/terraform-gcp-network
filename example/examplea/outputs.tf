@@ -1,7 +1,7 @@
-output "gateway_ipv4" {
-  value = module.network.gateway_ipv4
+output "subnet" {
+  value = module.network.subnet
 }
 
-output "network_self_link" {
-  value = module.network.network_self_link
+output "vpc" {
+  value = module.network.vpc
 }

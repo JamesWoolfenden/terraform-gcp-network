@@ -1,7 +1,7 @@
-output gateway_ipv4 {
-  value = google_compute_network.vpc.gateway_ipv4
+output "subnet" {
+  value = google_compute_subnetwork.sub
 }
 
-output network_self_link {
-  value = google_compute_network.vpc.self_link
+output "vpc" {
+  value = google_compute_network.vpc_network
 }
