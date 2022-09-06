@@ -6,7 +6,5 @@ resource "google_compute_firewall" "ssh-fw" {
   allow {
     protocol = "tcp"
     ports    = ["22"]
-
   }
-
 }
