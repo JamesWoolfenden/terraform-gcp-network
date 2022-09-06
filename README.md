@@ -80,7 +80,10 @@ resource "google_project_iam_custom_role" "terraformXVlBzgba" {
     "compute.networks.create",
     "compute.networks.delete",
     "compute.networks.get",
-    "compute.networks.updatePolicy"
+    "compute.networks.updatePolicy",
+    "compute.subnetworks.create",
+    "compute.subnetworks.delete",
+    "compute.subnetworks.get"
   ]
 }
 
