@@ -50,7 +50,6 @@ No modules.
 | <a name="input_common_tags"></a> [common\_tags](#input\_common\_tags) | This is to help you add tags to your cloud objects | `map(any)` | n/a | yes |
 | <a name="input_ip_cidr_range"></a> [ip\_cidr\_range](#input\_ip\_cidr\_range) | n/a | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | n/a | `string` | n/a | yes |
-| <a name="input_project"></a> [project](#input\_project) | n/a | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | n/a | `string` | n/a | yes |
 | <a name="input_secondary_ip_range"></a> [secondary\_ip\_range](#input\_secondary\_ip\_range) | n/a | `any` | `null` | no |
 
@@ -58,6 +57,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_firewall"></a> [firewall](#output\_firewall) | n/a |
 | <a name="output_subnet"></a> [subnet](#output\_subnet) | n/a |
 | <a name="output_vpc"></a> [vpc](#output\_vpc) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
