@@ -5,3 +5,8 @@ output "subnet" {
 output "vpc" {
   value = google_compute_network.vpc
 }
+
+
+output "firewall" {
+  value = google_compute_firewall.pike
+}
