@@ -39,6 +39,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [google_compute_firewall.pike](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
 | [google_compute_network.vpc](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_network) | resource |
 | [google_compute_subnetwork.sub](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork) | resource |
 
