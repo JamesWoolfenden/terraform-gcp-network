@@ -1,6 +1,7 @@
 resource "google_compute_firewall" "pike" {
   name    = var.name
   network = google_compute_network.vpc.name
+
   allow {
     protocol = "icmp"
   }
@@ -11,4 +12,8 @@ resource "google_compute_firewall" "pike" {
   }
 
   source_tags = ["web"]
+
+  log_config {
+    metadata = "INCLUDE_ALL_METADATA"
+  }
 }

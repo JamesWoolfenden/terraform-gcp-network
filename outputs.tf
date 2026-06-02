@@ -1,12 +1,14 @@
 output "subnet" {
-  value = google_compute_subnetwork.sub
+  description = "The google_compute_subnetwork resource."
+  value       = google_compute_subnetwork.sub
 }
 
 output "vpc" {
-  value = google_compute_network.vpc
+  description = "The google_compute_network resource."
+  value       = google_compute_network.vpc
 }
 
-
 output "firewall" {
-  value = google_compute_firewall.pike
+  description = "The google_compute_firewall resource."
+  value       = google_compute_firewall.pike
 }
