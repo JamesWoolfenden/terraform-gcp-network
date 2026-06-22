@@ -1,12 +1,14 @@
 output "subnet" {
-  value = module.network.subnet
+  description = "The subnet resource outputs from the network module"
+  value       = module.network.subnet
 }
 
 output "vpc" {
-  value = module.network.vpc
+  description = "The VPC resource outputs from the network module"
+  value       = module.network.vpc
 }
 
-
 output "firewall" {
-  value = module.network.firewall
+  description = "The firewall rules outputs from the network module"
+  value       = module.network.firewall
 }

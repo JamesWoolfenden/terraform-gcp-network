@@ -39,6 +39,8 @@ No modules.
 | ---- | ---- |
 | [google_compute_firewall.pike](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
 | [google_compute_network.vpc](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_network) | resource |
+| [google_compute_router.vpc](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_router) | resource |
+| [google_compute_router_nat.vpc](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_router_nat) | resource |
 | [google_compute_subnetwork.sub](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork) | resource |
 
 ## Inputs
@@ -46,7 +48,6 @@ No modules.
 | Name | Description | Type | Default | Required |
 | ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_ip_cidr_range"></a> [ip\_cidr\_range](#input\_ip\_cidr\_range) | Primary CIDR range for the subnet (e.g. 10.128.0.0/20). | `string` | n/a | yes |
-| <a name="input_labels"></a> [labels](#input\_labels) | Labels to apply to all resources created by this module. | `map(string)` | `{}` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name prefix for all resources in this module. | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | GCP region for the subnet. | `string` | n/a | yes |
 | <a name="input_secondary_ip_range"></a> [secondary\_ip\_range](#input\_secondary\_ip\_range) | Optional list of secondary IP ranges for the subnet (e.g. for GKE pods/services). | <pre>list(object({<br/>    range_name    = string<br/>    ip_cidr_range = string<br/>  }))</pre> | `null` | no |
@@ -56,6 +57,8 @@ No modules.
 | Name | Description |
 | ---- | ----------- |
 | <a name="output_firewall"></a> [firewall](#output\_firewall) | The google\_compute\_firewall resource. |
+| <a name="output_nat"></a> [nat](#output\_nat) | The google\_compute\_router\_nat resource. |
+| <a name="output_router"></a> [router](#output\_router) | The google\_compute\_router resource. |
 | <a name="output_subnet"></a> [subnet](#output\_subnet) | The google\_compute\_subnetwork resource. |
 | <a name="output_vpc"></a> [vpc](#output\_vpc) | The google\_compute\_network resource. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -82,6 +85,10 @@ resource "google_project_iam_custom_role" "terraform_pike" {
     "compute.networks.delete",
     "compute.networks.get",
     "compute.networks.updatePolicy",
+    "compute.routers.create",
+    "compute.routers.delete",
+    "compute.routers.get",
+    "compute.routers.update",
     "compute.subnetworks.create",
     "compute.subnetworks.delete",
     "compute.subnetworks.get",

@@ -8,7 +8,7 @@ resource "google_compute_firewall" "pike" {
 
   allow {
     protocol = "tcp"
-    ports    = ["80", "8080"]
+    ports    = ["8080"]
   }
 
   source_tags = ["web"]

@@ -37,13 +37,3 @@ variable "secondary_ip_range" {
     error_message = "All secondary_ip_range entries must have a valid CIDR block."
   }
 }
-
-variable "labels" {
-  description = "Labels to apply to all resources created by this module."
-  type        = map(string)
-  default     = {}
-  validation {
-    condition     = alltrue([for k in keys(var.labels) : can(regex("^[a-z0-9_-]+$", k))])
-    error_message = "All label keys must match ^[a-z0-9_-]+$."
-  }
-}
