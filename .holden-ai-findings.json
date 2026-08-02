@@ -1,0 +1,72 @@
+{
+  "findings": [
+    {
+      "confidence": "high",
+      "explanation": "This custom role's permissions list covers compute.firewalls.*, compute.networks.*, and compute.subnetworks.* only \u2014 there is no compute.routers.* or compute.regionOperations.get permission, yet the module (google_compute_network.vpc.tf) creates google_compute_router.vpc and google_compute_router_nat.vpc. Git history confirms the drift: this file was last modified at commit a3df01d, while the router/NAT resources were added afterward in 048f2f7 (\"replace default-gateway egress route with Cloud NAT\"). A rules engine checks each resource's own attributes and can't cross-reference a hand-generated IAM permission list against a separate resource file to notice it fell out of sync. Anyone applying this module using only the terraform_pike role will get a permission-denied on the router/NAT resources, and the role no longer reflects the actual least-privilege footprint it claims to enforce.",
+      "file": ".pike/pike.generated_policy.tf",
+      "first_seen": "2026-08-02",
+      "fixable": false,
+      "id": "HOLDEN_AI_001",
+      "last_seen": "2026-08-02",
+      "line": 7,
+      "principle": "identity-and-access",
+      "related_resources": [
+        "google_compute_router.vpc",
+        "google_compute_router_nat.vpc"
+      ],
+      "remediation": "Regenerate .pike/pike.generated_policy.tf via the pike tool against the current module so it picks up google_compute_router and google_compute_router_nat. If pike isn't available, manually add compute.routers.create, compute.routers.get, compute.routers.update, compute.routers.delete, and compute.regionOperations.get (routers/NAT are regional resources, unlike the existing compute.globalOperations.get entry which only covers the global network/firewall resources).",
+      "resource": "google_project_iam_custom_role.terraform_pike",
+      "severity": "MEDIUM",
+      "status": "open",
+      "suppression_reason": null,
+      "title": "Generated least-privilege IAM role predates Cloud Router/NAT resources it should cover",
+      "unresolved_since": "2026-08-02"
+    },
+    {
+      "confidence": "high",
+      "explanation": "Every other value in this module is variable-driven (name, region, ip_cidr_range, secondary_ip_range \u2014 see variables.tf), but this firewall rule's protocol, port (tcp/8080), and source_tags (\"web\") are fully hardcoded with no corresponding variable. It also sets no target_tags or target_service_accounts, so HLD_GCP_074 (target_tags must match an instance tag) never fires \u2014 there's nothing to mismatch \u2014 but the practical effect is the rule applies to every instance in the VPC, not a scoped subset. The resource name \"pike\" and the 8080 test-style port line up with the pike-generated artifacts elsewhere in this repo (.pike/pike.generated_policy.tf, project pike-477416), suggesting this rule may exist to satisfy HLD_GCP_093 (\"VPC networks must have at least one explicit firewall rule\") or a pike validation exercise rather than representing an intentional security decision every consumer of this published module should inherit. Every environment that pulls this module gets an ingress allow for tcp/8080 from any \"web\"-tagged instance to every instance in the VPC, without opting in.",
+      "file": "google_compute_firewall.tf",
+      "first_seen": "2026-08-02",
+      "fixable": false,
+      "id": "HOLDEN_AI_002",
+      "last_seen": "2026-08-02",
+      "line": 1,
+      "principle": "network-security",
+      "related_resources": [
+        "variables.tf"
+      ],
+      "remediation": "Either remove this firewall rule from the base network module (application-specific ingress belongs in the consuming workload, not a general-purpose network module) or parameterize protocol/port/source_tags/target_tags via variables so consumers must explicitly opt in to what's allowed.",
+      "resource": "google_compute_firewall.pike",
+      "severity": "MEDIUM",
+      "status": "fixed",
+      "suppression_reason": null,
+      "title": "Hardcoded, non-parameterized firewall rule bakes an app-specific port into a generic network module"
+    },
+    {
+      "confidence": "high",
+      "explanation": "HLD_GCP_066 only checks that NAT log_config.enable is true, which it is \u2014 but the filter is set to \"ERRORS_ONLY\", so successful NAT translations are never logged. That's inconsistent with the rest of the module: the subnet's flow logs use aggregation_interval=INTERVAL_10_MIN, flow_sampling=0.5, and metadata=INCLUDE_ALL_METADATA (google_compute_subnetwork.sub.tf:14-18), and the firewall log_config also uses metadata=INCLUDE_ALL_METADATA (google_compute_firewall.tf:16-18). Every other surface is tuned for maximum visibility; NAT alone drops the connection records needed to trace which internal instance translated to which external IP/port \u2014 exactly the audit trail most useful during an incident.",
+      "file": "google_compute_network.vpc.tf",
+      "first_seen": "2026-08-02",
+      "fix": "  log_config {\n    enable = true\n    filter = \"ALL\"\n  }",
+      "fixable": true,
+      "id": "HOLDEN_AI_003",
+      "last_seen": "2026-08-02",
+      "line": 23,
+      "principle": "logging-and-monitoring",
+      "related_resources": [
+        "google_compute_subnetwork.sub",
+        "google_compute_firewall.pike"
+      ],
+      "remediation": "Change log_config.filter on google_compute_router_nat.vpc from \"ERRORS_ONLY\" to \"ALL\" to match the visibility level configured on the subnet flow logs and firewall logs.",
+      "resource": "google_compute_router_nat.vpc",
+      "severity": "LOW",
+      "status": "fixed",
+      "suppression_reason": null,
+      "title": "Cloud NAT logs only errors while every other logging surface in the module captures full metadata"
+    }
+  ],
+  "scan_date": "2026-08-02T00:00:00Z",
+  "scan_path": ".",
+  "suggested_policies": [],
+  "suggested_suppressions": []
+}

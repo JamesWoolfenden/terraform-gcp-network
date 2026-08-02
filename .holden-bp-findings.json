@@ -1,0 +1,41 @@
+{
+  "findings": [
+    {
+      "confidence": "high",
+      "explanation": "main.tf's only content is the comment \"# Required for to publish Modules\" \u2014 an unfilled placeholder for the terraform{}/required_providers block a published registry module needs. This module IS published (README.md: source = \"JamesWoolfenden/network/gcp\") but declares no provider source or version constraint of its own; example/examplea/terraform.tf pins hashicorp/google to exactly 7.30.0 and required_version >= 1.5, and the committed root .terraform.lock.hcl resolved hashicorp/google 7.37.0, but none of that is enforced by the root module itself. A consumer's own root config controls the resolved provider version entirely \u2014 this module has no way to signal a minimum compatible provider version, so a future breaking provider change wouldn't surface as an early, clear Terraform error.",
+      "file": "main.tf",
+      "first_seen": "2026-08-02",
+      "fix": "terraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    google = {\n      source  = \"hashicorp/google\"\n      version = \">= 5.0, < 8.0\"\n    }\n  }\n}\n",
+      "fixable": true,
+      "id": "HOLDEN_BP_001",
+      "last_seen": "2026-08-02",
+      "line": 1,
+      "principle": "repeatability",
+      "remediation": "Add a terraform{} block with required_providers to main.tf (or a dedicated versions.tf), constraining hashicorp/google to a range compatible with what's actually used, e.g. version = \">= 5.0, < 8.0\", plus required_version = \">= 1.5\" matching the example.",
+      "resource": "module root",
+      "severity": "LOW",
+      "status": "open",
+      "title": "Root module has no required_providers/required_version constraint, despite main.tf flagging it as needed"
+    },
+    {
+      "confidence": "medium",
+      "explanation": "min_ports_per_vm = 2048 (32x the 64-port default) with nat_ip_allocate_option = AUTO_ONLY means GCP sizes the NAT IP pool assuming every VM eagerly needs 2048 ports, even though most VMs use far fewer at any given time. Since each NAT IP has a 64,512-port budget, this static allocation supports ~31 VMs per IP versus ~1000+ VMs per IP at the 64-port default \u2014 as the consuming environment's VM count grows, this forces provisioning (and paying for) far more NAT IPs than actual traffic requires. HLD_GCP_389 (which already passes here since min_ports_per_vm exceeds the default) documents its own preferred remediation as dynamic port allocation with min=64/max=2048 specifically to avoid this \u2014 this module's static config just doesn't take that preferred path, so the deterministic check has nothing left to flag.",
+      "file": "google_compute_network.vpc.tf",
+      "first_seen": "2026-08-02",
+      "fix": "  nat_ip_allocate_option              = \"AUTO_ONLY\"\n  enable_dynamic_port_allocation      = true\n  min_ports_per_vm                    = 64\n  max_ports_per_vm                    = 2048\n  source_subnetwork_ip_ranges_to_nat  = \"ALL_SUBNETWORKS_ALL_IP_RANGES\"\n",
+      "fixable": true,
+      "id": "HOLDEN_BP_002",
+      "last_seen": "2026-08-02",
+      "line": 13,
+      "principle": "cost",
+      "remediation": "Switch to dynamic port allocation, which preserves the same 2048-port ceiling per VM for bursty workloads while only consuming the 64-port baseline by default, reducing steady-state NAT IP count.",
+      "resource": "google_compute_router_nat.vpc",
+      "severity": "MEDIUM",
+      "status": "fixed",
+      "title": "Cloud NAT statically allocates 2048 ports/VM instead of dynamic allocation, inflating NAT IP provisioning at scale"
+    }
+  ],
+  "scan_date": "2026-08-02T00:00:00Z",
+  "scan_path": ".",
+  "suggested_policies": []
+}

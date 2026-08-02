@@ -10,7 +10,7 @@ output "vpc" {
 
 output "firewall" {
   description = "The google_compute_firewall resource."
-  value       = google_compute_firewall.pike
+  value       = google_compute_firewall.internal
 }
 
 output "router" {

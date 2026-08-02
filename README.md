@@ -37,7 +37,7 @@ No modules.
 
 | Name | Type |
 | ---- | ---- |
-| [google_compute_firewall.pike](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
+| [google_compute_firewall.internal](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
 | [google_compute_network.vpc](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_network) | resource |
 | [google_compute_router.vpc](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_router) | resource |
 | [google_compute_router_nat.vpc](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_router_nat) | resource |
@@ -69,7 +69,7 @@ No modules.
 The Terraform resource required is:
 
 ```golang
-
+# apply role
 resource "google_project_iam_custom_role" "terraform_pike" {
   project     = "pike-477416"
   role_id     = "terraform_pike"
@@ -93,6 +93,21 @@ resource "google_project_iam_custom_role" "terraform_pike" {
     "compute.subnetworks.delete",
     "compute.subnetworks.get",
     "compute.subnetworks.update"
+  ]
+}
+
+# plan role
+resource "google_project_iam_custom_role" "terraform_pike_plan" {
+  project     = "pike-477416"
+  role_id     = "terraform_pike_plan"
+  title       = "terraform_pike_plan"
+  description = "A user with least privileges"
+  permissions = [
+    "compute.firewalls.get",
+    "compute.globalOperations.get",
+    "compute.networks.get",
+    "compute.routers.get",
+    "compute.subnetworks.get"
   ]
 }
 
