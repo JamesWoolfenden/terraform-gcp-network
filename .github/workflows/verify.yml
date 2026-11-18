@@ -18,5 +18,3 @@ jobs:
 # holden:ignore:HLD_CI_017: it links my repo
   verify:
     uses: JamesWoolfenden/.github/.github/workflows/terraform-verify-gcp.yml@main
-    with:
-      service_account: terraform-gcp-network@pike-477416.iam.gserviceaccount.com
