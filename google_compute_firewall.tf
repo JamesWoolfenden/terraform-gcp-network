@@ -16,7 +16,7 @@ resource "google_compute_firewall" "internal" {
     protocol = "icmp"
   }
 
-  source_ranges = ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+  source_ranges = local.internal_source_ranges
 
   log_config {
     metadata = "INCLUDE_ALL_METADATA"

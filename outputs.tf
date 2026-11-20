@@ -22,3 +22,8 @@ output "nat" {
   description = "The google_compute_router_nat resource."
   value       = google_compute_router_nat.vpc
 }
+
+output "route" {
+  description = "The google_compute_route resource providing the default egress path."
+  value       = google_compute_route.egress
+}

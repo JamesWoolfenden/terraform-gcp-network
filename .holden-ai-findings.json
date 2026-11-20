@@ -18,10 +18,10 @@
       "remediation": "Regenerate .pike/pike.generated_policy.tf via the pike tool against the current module so it picks up google_compute_router and google_compute_router_nat. If pike isn't available, manually add compute.routers.create, compute.routers.get, compute.routers.update, compute.routers.delete, and compute.regionOperations.get (routers/NAT are regional resources, unlike the existing compute.globalOperations.get entry which only covers the global network/firewall resources).",
       "resource": "google_project_iam_custom_role.terraform_pike",
       "severity": "MEDIUM",
-      "status": "open",
+      "status": "fixed",
       "suppression_reason": null,
       "title": "Generated least-privilege IAM role predates Cloud Router/NAT resources it should cover",
-      "unresolved_since": "2026-08-02"
+      "unresolved_since": null
     },
     {
       "confidence": "high",
@@ -85,10 +85,10 @@
       "remediation": "Derive source_ranges from the subnet's own primary and secondary ranges (concat([var.ip_cidr_range], [for r in coalesce(var.secondary_ip_range, []) : r.ip_cidr_range])), and let consumers widen it explicitly via an optional variable if they need peered/on-prem ranges.",
       "resource": "google_compute_firewall.internal",
       "severity": "MEDIUM",
-      "status": "open",
+      "status": "fixed",
       "suppression_reason": null,
       "title": "Internal firewall opens every port to all of RFC1918, not the VPC's own subnet ranges",
-      "unresolved_since": "2026-11-20"
+      "unresolved_since": null
     },
     {
       "confidence": "high",
@@ -110,10 +110,10 @@
       "remediation": "Add a validation on var.name enforcing ^[a-z]([-a-z0-9]*[a-z0-9])?$ and length <= 52.",
       "resource": "variable.name",
       "severity": "LOW",
-      "status": "open",
+      "status": "fixed",
       "suppression_reason": null,
       "title": "var.name validation accepts names GCP will reject once suffixes are appended",
-      "unresolved_since": "2026-11-20"
+      "unresolved_since": null
     }
   ],
   "scan_date": "2026-11-20T00:00:00Z",

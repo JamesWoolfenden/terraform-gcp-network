@@ -39,6 +39,7 @@ No modules.
 | ---- | ---- |
 | [google_compute_firewall.internal](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
 | [google_compute_network.vpc](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_network) | resource |
+| [google_compute_route.egress](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_route) | resource |
 | [google_compute_router.vpc](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_router) | resource |
 | [google_compute_router_nat.vpc](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_router_nat) | resource |
 | [google_compute_subnetwork.sub](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork) | resource |
@@ -47,6 +48,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 | ---- | ----------- | ---- | ------- | :------: |
+| <a name="input_additional_internal_source_ranges"></a> [additional\_internal\_source\_ranges](#input\_additional\_internal\_source\_ranges) | Extra CIDR ranges (e.g. peered VPCs or on-prem) allowed full internal access, on top of the subnet's own primary and secondary ranges. | `list(string)` | `[]` | no |
 | <a name="input_ip_cidr_range"></a> [ip\_cidr\_range](#input\_ip\_cidr\_range) | Primary CIDR range for the subnet (e.g. 10.128.0.0/20). | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name prefix for all resources in this module. | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | GCP region for the subnet. | `string` | n/a | yes |
@@ -58,6 +60,7 @@ No modules.
 | ---- | ----------- |
 | <a name="output_firewall"></a> [firewall](#output\_firewall) | The google\_compute\_firewall resource. |
 | <a name="output_nat"></a> [nat](#output\_nat) | The google\_compute\_router\_nat resource. |
+| <a name="output_route"></a> [route](#output\_route) | The google\_compute\_route resource providing the default egress path. |
 | <a name="output_router"></a> [router](#output\_router) | The google\_compute\_router resource. |
 | <a name="output_subnet"></a> [subnet](#output\_subnet) | The google\_compute\_subnetwork resource. |
 | <a name="output_vpc"></a> [vpc](#output\_vpc) | The google\_compute\_network resource. |
@@ -89,6 +92,9 @@ resource "google_project_iam_custom_role" "terraform_pike" {
     "compute.routers.delete",
     "compute.routers.get",
     "compute.routers.update",
+    "compute.routes.create",
+    "compute.routes.delete",
+    "compute.routes.get",
     "compute.subnetworks.create",
     "compute.subnetworks.delete",
     "compute.subnetworks.get",
@@ -107,6 +113,7 @@ resource "google_project_iam_custom_role" "terraform_pike_plan" {
     "compute.globalOperations.get",
     "compute.networks.get",
     "compute.routers.get",
+    "compute.routes.get",
     "compute.subnetworks.get"
   ]
 }
